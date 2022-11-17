@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from './components/Header';
+import NoteLists from './components/NoteLists';
 import Notes from './components/Notes';
 import SideBar from './components/SideBar';
 
@@ -12,7 +13,7 @@ function App() {
             <SideBar/>
             <div className='w-100'>
                 <Header/>
-                <Notes/>
+                <NoteLists/>
             </div>
             
         </div>
