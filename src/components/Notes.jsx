@@ -18,11 +18,14 @@ import {
 function Notes(props) {
 	const { content, color, date } = props.noteData;
   	const { noteColor, createdAt } = useSelector((state) => state.note);
-	const [noteContent, setNoteContent] = useState('');
+	const [noteContent, setNoteContent] = useState(content);
 	const [isMenu,setisMenu] = useState(false);
 	const [isEdit, setIsEdit] = useState(false);
 	const dispatch = useDispatch();
 
+	// const [currentNoteData,setCurrentNoteData] = useState({content, color, date})
+	
+	console.log('current note', currentNoteData);
 	const handleAddNote = () => {
 		dispatch(addNote({
 			content: noteContent,
@@ -55,7 +58,7 @@ function Notes(props) {
 						resize: 'none',
 						fontStyle: 'italic'
 						}}
-						value={noteContent ? noteContent : content}
+						value={noteContent}
 						onChange={(e) => setNoteContent(e.target.value)}
 					/>
 					) : (

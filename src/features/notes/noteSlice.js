@@ -11,7 +11,7 @@ const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeri
 const initialState = {
     notes: notes ? notes : [],
     isEmpty: true,
-    isAddNew: false,
+    addNew: false,
     content: "",
     noteColor: "",
     createdAt: currentDate.toLocaleDateString('en-us', options),
@@ -23,7 +23,7 @@ export const noteSlice = createSlice({
     reducers: {
         reset: (state) => initialState,
         createNewNote: (state, action) => {
-            state.isAddNew = true;
+            state.addNew = true;
             state.noteColor = action.payload;
         },
         openNote: (state, action) => {
