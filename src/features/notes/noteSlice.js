@@ -30,9 +30,21 @@ export const noteSlice = createSlice({
             updatedNotes[state.listedNotes.findIndex(note => note.id === action.payload.id)] = action.payload; 
             localStorage.setItem('notes', JSON.stringify(updatedNotes));
             state.addNew = false;
+            state.noteColor = "";
+        },
+        updateNoteColor: (state, action) => {
+            const {id, color} = action.payload
+            let updatedNotes = state.listedNotes
+            updatedNotes[state.listedNotes.findIndex(note => note.id === id)].color = color; 
+            localStorage.setItem('notes', JSON.stringify(state.listedNotes));
         },
         setListedNotes: (state, action) => {
             state.listedNotes.unshift(action.payload)
+        },
+        deleteNote: (state, action) => {
+            let thisNote = state.listedNotes.findIndex(note => note.id === action.payload)
+            state.listedNotes.splice(thisNote,1);
+            localStorage.setItem('notes', JSON.stringify(state.listedNotes));
         }
     }
 });
@@ -42,6 +54,8 @@ export const {
         SaveChanges,
         createNewNote,
         setListedNotes,
+        deleteNote,
+        updateNoteColor
 
     } = noteSlice.actions
 export default noteSlice.reducer
