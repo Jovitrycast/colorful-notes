@@ -3,40 +3,44 @@ import { generateRandomId } from '../commons/functions';
 // Import note reducers // redux
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { setListedNotes } from '../features/notes/noteSlice';
 import Notes from './Notes';
 
 function NoteLists() {
     const dispatch = useDispatch();
-    const { notes, addNew, noteColor, createdAt } = useSelector((state) => state.note);
-    const [listedNotes, setListedNotes] = useState(notes);
+    const { listedNotes, addNew, createdAt} = useSelector((state) => state.note);
+    const [displayedNotes, setDisplayedNotes] = useState(listedNotes);
 
     useEffect(() => {
       if(addNew){
-        handleAddNote(noteColor)
+        handleAddNote();
       }
       },[addNew])
 
-     const handleAddNote = (color) => {
+    useEffect(() => {
+      setDisplayedNotes(listedNotes)
+      },[listedNotes])
+
+     const handleAddNote = () => {
         const noteId = generateRandomId();
 
-        setListedNotes((prev) => [
-          {
+        const newNote = {
             id: noteId,
             content: "",
-            color: noteColor,
-            createdAt: createdAt
-          },
-          ...prev,
-        ]);
-
-        console.log(listedNotes);
+            date: createdAt,
+            isOpen: true
+          }
+          dispatch(setListedNotes(newNote));
       }
 
+
   return (
-    <div className='d-flex'>
-        {listedNotes?.map((note) => (
-            <div key={note} className="w-25">
-                <Notes noteData={note} />
+    <div className='d-flex flex-wrap'>
+        {displayedNotes?.map((note) => (
+            <div key={note.id} className="w-25">
+                <Notes 
+                  noteData={note}
+                />
             </div>
         ))}
     </div>

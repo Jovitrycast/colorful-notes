@@ -1,8 +1,8 @@
-import { useEffect,useState } from 'react';
+import { useEffect, useState ,useRef } from 'react';
 
 // Import note reducers // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { addNote } from '../features/notes/noteSlice';
+import { SaveChanges, reset } from '../features/notes/noteSlice';
 
 // Import ant Designs
 import { Button, Space } from 'antd';
@@ -16,38 +16,61 @@ import {
 
 
 function Notes(props) {
-	const { content, color, date } = props.noteData;
+	const { id, content, color, date, isOpen } = props.noteData;
   	const { noteColor, createdAt } = useSelector((state) => state.note);
-	const [noteContent, setNoteContent] = useState(content);
+	const [noteContent, setNoteContent] = useState("");
 	const [isMenu,setisMenu] = useState(false);
 	const [isEdit, setIsEdit] = useState(false);
+	const [openNote,setOpenNote] = useState(isOpen)
 	const dispatch = useDispatch();
+	const inputRef = useRef()
 
-	// const [currentNoteData,setCurrentNoteData] = useState({content, color, date})
+	useEffect(() => {
+		if(isEdit) {
+			inputRef.current.focus();
+			let temp_value = inputRef.current.value
+			inputRef.current.value = ''
+			inputRef.current.value = temp_value
+
+			//close note menu
+			setisMenu(false);
+		}
+		if(openNote) {
+			setIsEdit(true);
+		}
+	},[isEdit, isOpen])
 	
-	console.log('current note', currentNoteData);
-	const handleAddNote = () => {
-		dispatch(addNote({
+	const handleSaveChanges = () => {
+		const newColor = noteColor ? noteColor : color;
+		const updatedData = {
+			id: id,
 			content: noteContent,
-			color: noteColor,
+			color: newColor,
 			date: createdAt
-		}));
+		}
+		dispatch(SaveChanges(updatedData))
+		setIsEdit(false);
+		setOpenNote(false);
 	}
-
 	const handleMenuToggle = () => {
 		setisMenu(!isMenu);
 	}
 	const handleEditNote = () => {
 		setIsEdit(!isEdit);
 	}
+
   return (
         <section className='p-2'>
-			<div className='d-flex flex-column align-items-center rounded p-3 fs-4' style={{background: color}}>
+			<div 
+				className='d-flex flex-column align-items-center rounded p-3 fs-4' 
+				style={{
+					background: color ? color : noteColor,
+					}}>
 				{isEdit ? (
 					
 					<textarea 
 						name="note" 
-						id="note" c
+						id="note"
 						placeholder='Type your note...'
 						style={{
 						background: noteColor ? noteColor : color ,
@@ -59,16 +82,16 @@ function Notes(props) {
 						fontStyle: 'italic'
 						}}
 						value={noteContent}
+						ref={inputRef}
 						onChange={(e) => setNoteContent(e.target.value)}
+						
 					/>
 					) : (
 						<div 
 							style={{
 								height: '15rem',
 							}}>
-							<pre>
-								{content}
-							</pre>
+							<p className='w-100'>{content}</p>
 						</div>
 					)
 				}
@@ -80,8 +103,8 @@ function Notes(props) {
 							type='primary' 
 							shape='circle' 
 							icon={<CheckOutlined/>}
-							onClick={handleAddNote} 
-							/>
+							onClick={handleSaveChanges} 
+							></Button>
 						</>
 					) : (
 						<div>

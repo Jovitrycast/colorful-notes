@@ -9,10 +9,9 @@ const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeri
 
 
 const initialState = {
-    notes: notes ? notes : [],
+    listedNotes: notes ? notes : [],
     isEmpty: true,
     addNew: false,
-    content: "",
     noteColor: "",
     createdAt: currentDate.toLocaleDateString('en-us', options),
 }
@@ -26,14 +25,23 @@ export const noteSlice = createSlice({
             state.addNew = true;
             state.noteColor = action.payload;
         },
-        openNote: (state, action) => {
-            state.noteColor = action.payload;
+        SaveChanges: (state, action) => {
+            let updatedNotes = state.listedNotes
+            updatedNotes[state.listedNotes.findIndex(note => note.id === action.payload.id)] = action.payload; 
+            localStorage.setItem('notes', JSON.stringify(updatedNotes));
+            state.addNew = false;
         },
-        addNote: (state, action) => {
-            localStorage.setItem('notes', JSON.stringify(state.notes));
+        setListedNotes: (state, action) => {
+            state.listedNotes.unshift(action.payload)
         }
     }
 });
 
-export const {reset, addNote, openNote, createNewNote} = noteSlice.actions
+export const {
+        reset, 
+        SaveChanges,
+        createNewNote,
+        setListedNotes,
+
+    } = noteSlice.actions
 export default noteSlice.reducer
