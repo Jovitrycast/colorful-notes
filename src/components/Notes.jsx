@@ -5,7 +5,7 @@ import notesColorsSelection from '../commons/colors';
 import { useDispatch, useSelector } from 'react-redux';
 import { 
 	SaveChanges, 
-	reset,
+	discard,
 	deleteNote,
 	updateNoteColor
 } from '../features/notes/noteSlice';
@@ -25,7 +25,7 @@ function Notes(props) {
 	const { id, content, color, date, isOpen } = props.noteData;
 
 	// Global States
-  	const { noteColor, createdAt } = useSelector((state) => state.note);
+  	const { noteColor, createdAt, addNew } = useSelector((state) => state.note);
 
 	// Local states
 	const [noteContent, setNoteContent] = useState(content);
@@ -51,7 +51,7 @@ function Notes(props) {
 		if(openNote) {
 			setIsEdit(true);
 		}
-	},[isEdit, isOpen])
+	},[isEdit, openNote])
 	
 	const handleSaveChanges = async() => {
 		const newColor = color ? color : noteColor
@@ -68,6 +68,7 @@ function Notes(props) {
 
 	const handleMenuToggle = () => {
 		setisMenu(!isMenu);
+		setIsShowColors(false);
 	}
 
 	const handleEditNote = () => {
@@ -75,8 +76,8 @@ function Notes(props) {
 	}
 
 	const discardChanges = () => {
-		dispatch(reset());
-		setIsEdit(!isEdit);
+		dispatch(discard());
+		setIsEdit(false);
 	}
 
 	const handleDeleteNote = () => {
@@ -85,9 +86,10 @@ function Notes(props) {
   return (
         <section className='p-2'>
 			<div 
-				className='d-flex flex-column align-items-center rounded p-3 fs-4' 
+				className='d-flex flex-column align-items-center rounded-4 p-3 fs-4' 
 				style={{
 					background: color ? color : noteColor,
+					minHeight: '15rem'
 					}}>
 				{isEdit ? (
 					
@@ -99,7 +101,7 @@ function Notes(props) {
 						background: noteColor ? noteColor : color ,
 						border: 'none',
 						outline: 'none',
-						height: '15rem',
+						height: '11.4rem',
 						width: '100%',
 						resize: 'none',
 						fontStyle: 'italic'
@@ -107,26 +109,25 @@ function Notes(props) {
 						value={noteContent}
 						ref={inputRef}
 						onChange={(e) => setNoteContent(e.target.value)}
-						
 					/>
 					) : (
 						<div 
 							style={{
-								height: '15rem',
+								height: '11rem',
 								width: '100%'
 							}}>
 							<p className='w-100'>{content}</p>
 						</div>
 					)
 				}
-				<div className='d-flex justify-content-between align-items-between w-100 position-relative'>
+				<div className='d-flex justify-content-between align-items-center w-100 position-relative'>
 					<span className='fs-6'>{date}</span>
 					{isEdit ? (
 						<div className='d-flex gap-2'>
 							<Button 
 								type='primary' 
 								shape='circle' 
-								icon={<DeleteOutlined />}
+								icon={ addNew ? <DeleteOutlined /> : <CloseOutlined/>}
 								onClick={discardChanges}
 								className="bg-dark border-0" 
 							/>
@@ -135,7 +136,8 @@ function Notes(props) {
 								type='primary' 
 								shape='circle' 
 								icon={<CheckOutlined/>}
-								onClick={handleSaveChanges} 
+								onClick={handleSaveChanges}
+								disabled={noteContent.length === 0} 
 							/>
 						</div>
 					) : (

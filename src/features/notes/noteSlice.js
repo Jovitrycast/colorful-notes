@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 // Get notes from localStorage
 const notes = JSON.parse(localStorage.getItem('notes'));
@@ -10,7 +10,6 @@ const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeri
 
 const initialState = {
     listedNotes: notes ? notes : [],
-    isEmpty: true,
     addNew: false,
     noteColor: "",
     createdAt: currentDate.toLocaleDateString('en-us', options),
@@ -26,16 +25,14 @@ export const noteSlice = createSlice({
             state.noteColor = action.payload;
         },
         SaveChanges: (state, action) => {
-            let updatedNotes = state.listedNotes
-            updatedNotes[state.listedNotes.findIndex(note => note.id === action.payload.id)] = action.payload; 
-            localStorage.setItem('notes', JSON.stringify(updatedNotes));
+            state.listedNotes[state.listedNotes.findIndex(note => note.id === action.payload.id)] = action.payload; 
+            localStorage.setItem('notes', JSON.stringify(state.listedNotes));
             state.addNew = false;
             state.noteColor = "";
         },
         updateNoteColor: (state, action) => {
             const {id, color} = action.payload
-            let updatedNotes = state.listedNotes
-            updatedNotes[state.listedNotes.findIndex(note => note.id === id)].color = color; 
+            state.listedNotes[state.listedNotes.findIndex(note => note.id === id)].color = color; 
             localStorage.setItem('notes', JSON.stringify(state.listedNotes));
         },
         setListedNotes: (state, action) => {
@@ -45,6 +42,12 @@ export const noteSlice = createSlice({
             let thisNote = state.listedNotes.findIndex(note => note.id === action.payload)
             state.listedNotes.splice(thisNote,1);
             localStorage.setItem('notes', JSON.stringify(state.listedNotes));
+        },
+        discard: (state) => {
+            const notes = JSON.parse(localStorage.getItem('notes'));
+            state.listedNotes = notes;
+            state.noteColor = "";
+            state.addNew = false;
         }
     }
 });
@@ -55,7 +58,8 @@ export const {
         createNewNote,
         setListedNotes,
         deleteNote,
-        updateNoteColor
+        updateNoteColor,
+        discard
 
     } = noteSlice.actions
 export default noteSlice.reducer

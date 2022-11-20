@@ -1,22 +1,31 @@
 // ant design imports
-import { Input } from 'antd'
+import { Col, Input, Row } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 
-function Header() {
+function Header(props) {
+  const displayedNotes  = props.notes;
+  const count = displayedNotes.length;
   return (
-    <div className='w-100'>
-        <section className='p-2 w-25'>
-             <Input
+    <div className='w-100 p-2'>
+      <Row>
+        <Col
+            sm={24}
+            md={16}
+            lg={8}
+            xl={8}
+            xxl={8}
+        >
+            <Input
                 size='large'
                 placeholder='Search Notes'
                 prefix={<SearchOutlined/>}
-                className='rounded-5 p-2 mb-2 w-100' 
+                className='rounded-5 p-2 my-2 w-100' 
             />
-        </section>
-       
+        </Col>
+      </Row>
         <section className="p-2">
             <h1 className="m-0">Notes</h1>
-            <p>No saved notes yet.</p>
+            { count > 0 ? (<p>{count}{count === 1 ? " note" : " notes"} registered</p>) : (<p>No saved notes yet.</p>)}
         </section>
     </div>
   )

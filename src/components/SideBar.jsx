@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import notesColorsSelection from '../commons/colors';
 
 // ant design imports
@@ -14,8 +14,8 @@ import { createNewNote } from '../features/notes/noteSlice';
 
 function SideBar() {
 	const [isShowColors, setIsShowColors] = useState(false);
-
 	const dispatch = useDispatch();
+	
 
 	const handleToggleColorSelection = () => {
 		setIsShowColors(!isShowColors);
@@ -25,12 +25,12 @@ function SideBar() {
 
 		<Sider
 		collapsed={true}
-			className="bg-secondary d-flex justify-content-center p-2" 
+			className="bg-secondary d-flex justify-content-center p-3" 
 			style={{
 				height: '100vh',
 			}}
 		>
-			<Tooltip title="Add Notes">
+			<Tooltip mouseEnterDelay={0.7} title="Add Notes">
 				<Button 
 					type="primary" 
 					shape="circle" 

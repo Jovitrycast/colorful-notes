@@ -5,12 +5,17 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setListedNotes } from '../features/notes/noteSlice';
 import Notes from './Notes';
+import SideBar from './SideBar';
+import Header from './Header';
+
+// Import Ant Design
+import Layout, { Content, Footer } from "antd/lib/layout/layout";
+import { Col } from 'antd';
 
 function NoteLists() {
     const dispatch = useDispatch();
     const { listedNotes, addNew, createdAt} = useSelector((state) => state.note);
     const [displayedNotes, setDisplayedNotes] = useState(listedNotes);
-
     useEffect(() => {
       if(addNew){
         handleAddNote();
@@ -19,7 +24,7 @@ function NoteLists() {
 
     useEffect(() => {
       setDisplayedNotes(listedNotes)
-      },[listedNotes])
+      },[listedNotes,addNew])
 
      const handleAddNote = () => {
         const noteId = generateRandomId();
@@ -33,17 +38,47 @@ function NoteLists() {
           dispatch(setListedNotes(newNote));
       }
 
+      // const handleSearch = () => {
+
+      // }
 
   return (
-    <div className='d-flex flex-wrap'>
-        {displayedNotes?.map((note) => (
-            <div key={note.id} className="w-25">
-                <Notes 
+    <>
+    <Layout style={{
+        minHeight: "100vh",
+        width: "100%",
+        height: "100vh",
+      }}>
+      <SideBar />
+      <Layout>
+        <Content style={{
+            minWidth: '100%',             
+            overflowY: "scroll",
+            overflowX: "hidden",
+        }}>
+            <Header notes = {displayedNotes}/>
+            <div className='ant-row d-flex flex-wrap p-2 w-100 h-50'>
+              {displayedNotes?.map((note) => (  
+                <Col  
+                key={note.id} 
+                sm={24}
+                md={12}
+                lg={8}
+                xl={6}
+                xxl={4}
+                className="w-100 mb-3"
+              >
+                <Notes
                   noteData={note}
                 />
+              </Col>
+              ))}
             </div>
-        ))}
-    </div>
+        </Content>
+        <Footer className='text-center'>Colorful Notes by <span className='text-primary fw-bold'>Jovit Castillo</span></Footer>
+      </Layout>
+    </Layout>
+    </>
   )
 }
 
