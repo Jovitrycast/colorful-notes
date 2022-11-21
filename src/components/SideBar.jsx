@@ -56,7 +56,6 @@ function SideBar() {
 					style={{
 						height: 60,
 						width: 60,
-						marginTop: 30
 					}}
 					onClick={handleToggleColorSelection}
 				/>
