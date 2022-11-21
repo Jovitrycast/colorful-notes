@@ -92,7 +92,7 @@ function SideBar() {
 					)
 				}
 				<div className='d-flex flex-column align-items-center gap-1'>
-					<Switch onChange={handleTheme}/>
+					<Switch defaultChecked={isDarkMode} onChange={handleTheme}/>
 					<span>{colorMode}</span>
 				</div>
 			</div>
