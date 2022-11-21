@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 // Get notes from localStorage
 const notes = JSON.parse(localStorage.getItem('notes'));
-
+const darkMode = JSON.parse(localStorage.getItem('isDarkMode'));
 // Set Date 
 const currentDate = new Date();
 const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
@@ -13,6 +13,7 @@ const initialState = {
     addNew: false,
     noteColor: "",
     createdAt: currentDate.toLocaleDateString('en-us', options),
+    isDarkMode: darkMode
 }
 
 export const noteSlice = createSlice({
@@ -48,6 +49,10 @@ export const noteSlice = createSlice({
             state.listedNotes = notes;
             state.noteColor = "";
             state.addNew = false;
+        },
+        setTheme: (state) => {
+            state.isDarkMode = !state.isDarkMode;
+            localStorage.setItem('isDarkMode', JSON.stringify(state.isDarkMode));
         }
     }
 });
@@ -59,7 +64,8 @@ export const {
         setListedNotes,
         deleteNote,
         updateNoteColor,
-        discard
+        discard,
+        setTheme
 
     } = noteSlice.actions
 export default noteSlice.reducer

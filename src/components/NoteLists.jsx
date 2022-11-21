@@ -14,7 +14,7 @@ import { Col } from 'antd';
 
 function NoteLists() {
     const dispatch = useDispatch();
-    const { listedNotes, addNew, createdAt} = useSelector((state) => state.note);
+    const { listedNotes, addNew, createdAt, isDarkMode} = useSelector((state) => state.note);
     const [displayedNotes, setDisplayedNotes] = useState(listedNotes);
     useEffect(() => {
       if(addNew){
@@ -44,14 +44,17 @@ function NoteLists() {
 
   return (
     <>
-    <Layout style={{
+    <Layout
+      style={{
         minHeight: "100vh",
         width: "100%",
         height: "100vh",
       }}>
       <SideBar />
       <Layout>
-        <Content style={{
+        <Content 
+        style={{
+            background: isDarkMode ? '#111d2c' : '',
             minWidth: '100%',             
             overflowY: "scroll",
             overflowX: "hidden",
@@ -75,7 +78,13 @@ function NoteLists() {
               ))}
             </div>
         </Content>
-        <Footer className='text-center'>Colorful Notes by <span className='text-primary fw-bold'>Jovit Castillo</span></Footer>
+        <Footer 
+          className='text-center'
+          style={{
+            background: isDarkMode ? '#111d2c' : '',
+            color: isDarkMode ? '#F9F9F9' : '',
+          }}
+          >Colorful Notes by <span className='text-primary fw-bold'>Jovit Castillo</span></Footer>
       </Layout>
     </Layout>
     </>
