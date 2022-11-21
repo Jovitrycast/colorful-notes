@@ -144,7 +144,7 @@ function Notes(props) {
 								shape='circle' 
 								icon={<CheckOutlined/>}
 								onClick={handleSaveChanges}
-								disabled={noteContent.length === 0} 
+								disabled={noteContent.trim().length === 0} 
 							/>
 						</div>
 					) : (
