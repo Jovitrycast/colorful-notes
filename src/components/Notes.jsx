@@ -89,7 +89,7 @@ function Notes(props) {
 				className='d-flex flex-column align-items-center rounded-4 p-3 fs-5' 
 				style={{
 					background: color ? color : noteColor,
-					minHeight: '15rem'
+					minHeight: '20rem'
 					}}>
 				{isEdit ? (
 					
@@ -113,7 +113,7 @@ function Notes(props) {
 					) : (
 						<div 
 							style={{
-								height: '11rem',
+								height: '17rem',
 								width: '100%',
 								overflowY: 'auto'
 							}}>
@@ -181,23 +181,23 @@ function Notes(props) {
 									}
 				
 									return(
-										<Button 
-											type='primary'
-											shape='circle'
-											key={color.desc}
-											style={{
-												background: color.value,
-												minHeight: 20,
-												minWidth: 20,
-												width: 20,
-												height: 20,
-												outline: '5px solid black',
-												border: 'none'
-											}}
-											onClick = {changeNoteColor}
-										>
-											{" "}	
-										</Button>
+									<Button
+										type='primary'
+										shape='circle'
+										key={color.desc}
+										style={{
+											background: color.value,
+											minHeight: 20,
+											minWidth: 20,
+											width: 20,
+											height: 20,
+											outline: '5px solid black',
+											border: 'none'
+										}}
+										onClick = {changeNoteColor}
+									>
+										{" "}	
+									</Button>
 									)
 								})}
 							</Space>
