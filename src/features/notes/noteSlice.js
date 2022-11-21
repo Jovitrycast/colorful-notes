@@ -46,7 +46,7 @@ export const noteSlice = createSlice({
         },
         discard: (state) => {
             const notes = JSON.parse(localStorage.getItem('notes'));
-            state.listedNotes = notes;
+            state.listedNotes = notes ? notes : [];
             state.noteColor = "";
             state.addNew = false;
         },
