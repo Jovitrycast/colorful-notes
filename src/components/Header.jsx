@@ -13,6 +13,7 @@ function Header(props) {
     <div className='w-100 p-2'>
       <Row>
         <Col
+            xs={24}
             sm={24}
             md={16}
             lg={8}
