@@ -56,7 +56,7 @@ function NoteLists() {
         style={{
             background: isDarkMode ? '#111d2c' : '',
             minWidth: '100%',             
-            overflowY: "scroll",
+            overflowY: "auto",
             overflowX: "hidden",
         }}>
             <Header notes = {displayedNotes}/>

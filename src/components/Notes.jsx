@@ -86,7 +86,7 @@ function Notes(props) {
   return (
         <section className='p-2'>
 			<div 
-				className='d-flex flex-column align-items-center rounded-4 p-3 fs-4' 
+				className='d-flex flex-column align-items-center rounded-4 p-3 fs-5' 
 				style={{
 					background: color ? color : noteColor,
 					minHeight: '15rem'
@@ -114,9 +114,16 @@ function Notes(props) {
 						<div 
 							style={{
 								height: '11rem',
-								width: '100%'
+								width: '100%',
+								overflowY: 'auto'
 							}}>
-							<p className='w-100'>{content}</p>
+							<p
+							style={{
+								whiteSpace: "break-spaces",
+								wordBreak: "break-word",
+              				}}>
+								{content}
+							</p>
 						</div>
 					)
 				}
