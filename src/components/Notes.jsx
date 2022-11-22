@@ -89,7 +89,7 @@ function Notes(props) {
 				className='d-flex flex-column align-items-center rounded-4 p-3 fs-5' 
 				style={{
 					background: color ? color : noteColor,
-					minHeight: '20rem'
+					minHeight: '15rem'
 					}}>
 				{isEdit ? (
 					
@@ -113,7 +113,7 @@ function Notes(props) {
 					) : (
 						<div 
 							style={{
-								height: '17rem',
+								height: '12rem',
 								width: '100%',
 								overflowY: 'auto'
 							}}>
@@ -168,7 +168,7 @@ function Notes(props) {
 							  className="d-flex mt-1"
 							  style={{
 								position: 'absolute',
-								right: 5,
+								right: 6,
 								bottom: 32,
 							  }}
 							>

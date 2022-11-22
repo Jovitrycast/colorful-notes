@@ -4,18 +4,6 @@ const notesColorsSelection = [
         desc: 'pastel green',
     },
     {
-        value: '#F2D7D9',
-        desc: 'pastel pink',
-    },
-    {
-        value: '#FEBE8C',
-        desc: 'orange',
-    },
-    {
-        value: '#FBFACD',
-        desc: 'yellow',
-    },
-    {
         value: '#FCDDB0',
         desc: 'light brown',
     },
