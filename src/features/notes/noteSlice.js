@@ -14,6 +14,7 @@ const initialState = {
     noteColor: "",
     createdAt: currentDate.toLocaleDateString('en-us', options),
     isDarkMode: darkMode,
+    isDisabled: false
 }
 
 export const noteSlice = createSlice({
@@ -54,6 +55,9 @@ export const noteSlice = createSlice({
             state.isDarkMode = !state.isDarkMode;
             localStorage.setItem('isDarkMode', JSON.stringify(state.isDarkMode));
         },
+        setIsDisabled: (state, action) => {
+            state.isDisabled = action.payload;
+        }
     }
 });
 
@@ -65,7 +69,8 @@ export const {
         deleteNote,
         updateNoteColor,
         discard,
-        setTheme
+        setTheme,
+        setIsDisabled
 
     } = noteSlice.actions
 export default noteSlice.reducer

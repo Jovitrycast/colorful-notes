@@ -7,7 +7,8 @@ import {
 	SaveChanges, 
 	discard,
 	deleteNote,
-	updateNoteColor
+	updateNoteColor,
+	setIsDisabled
 } from '../features/notes/noteSlice';
 
 // Import ant Designs
@@ -44,7 +45,7 @@ function Notes(props) {
 			let temp_value = inputRef.current.value
 			inputRef.current.value = ''
 			inputRef.current.value = temp_value
-
+			dispatch(setIsDisabled(true))
 			//close note menu
 			setisMenu(false);
 		}
@@ -64,6 +65,7 @@ function Notes(props) {
 		dispatch(SaveChanges(updatedData))
 		setIsEdit(false);
 		setOpenNote(false);
+		dispatch(setIsDisabled(false))
 	}
 
 	const handleMenuToggle = () => {

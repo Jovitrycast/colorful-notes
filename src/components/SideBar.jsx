@@ -4,7 +4,6 @@ import notesColorsSelection from '../commons/colors';
 // ant design imports
 import { 
 	Button, 
-	Tooltip, 
 	Space, 
 	Switch 
 } from 'antd';
@@ -14,25 +13,24 @@ import Sider from "antd/lib/layout/Sider";
 
 // Import note reducers // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { createNewNote, setTheme } from '../features/notes/noteSlice';
+import { createNewNote, setTheme, setIsDisabled } from '../features/notes/noteSlice';
 
 
 
 function SideBar(props) {
-	const { isDisabled } = props;
 	const dispatch = useDispatch();
-	const { isDarkMode } = useSelector((state) => state.note);
+	const { isDarkMode, isDisabled } = useSelector((state) => state.note);
 
 	const [isShowColors, setIsShowColors] = useState(false);
 	const [colorMode,setColorMode] = useState(isDarkMode ? 'Dark' : 'Light')
 
 	useEffect(() => {
 		setColorMode(isDarkMode ? 'Dark' : 'Light')
-		
+
 		if(isDisabled) {
 			setIsShowColors(false)
 		}
-	},[isDarkMode, isDisabled])
+	},[isDarkMode])
 
 	const handleToggleColorSelection = () => {
 		setIsShowColors(!isShowColors);
@@ -76,6 +74,7 @@ function SideBar(props) {
 						
 						const handleCreateNote = () => {
 							dispatch(createNewNote(color.value));
+							setIsShowColors(!isShowColors);
 						}
 
 						return(
@@ -89,7 +88,6 @@ function SideBar(props) {
 									border: 'none'
 								}}
 								onClick = {handleCreateNote}
-								disabled={isDisabled}
 							>
 								{" "}	
 							</Button>

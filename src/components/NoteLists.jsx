@@ -3,7 +3,7 @@ import { generateRandomId } from '../commons/functions';
 // Import note reducers // redux
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setListedNotes } from '../features/notes/noteSlice';
+import { setListedNotes, setIsDisabled } from '../features/notes/noteSlice';
 import Notes from './Notes';
 import SideBar from './SideBar';
 import Header from './Header';
@@ -14,17 +14,16 @@ import { Col } from 'antd';
 
 function NoteLists() {
     const dispatch = useDispatch();
-    const { listedNotes, addNew, createdAt, isDarkMode } = useSelector((state) => state.note);
+    const { listedNotes, addNew, createdAt, isDarkMode, isDisabled } = useSelector((state) => state.note);
     const [displayedNotes, setDisplayedNotes] = useState(listedNotes);
     const [searchNote, setSearchNote] = useState("");
     const [searchResultCount, setSearchResultCount] = useState([]);
-    const [isDisabled, setIsDisabled] =  useState(false)
     useEffect(() => {
       if(addNew){
         handleAddNote();
       }
 
-      searchNote.length > 0 ? setIsDisabled(true) : setIsDisabled(false); 
+      searchNote.length > 0 ? dispatch(setIsDisabled(true)) : dispatch(setIsDisabled(false)); 
 
       },[addNew, searchNote])
 
@@ -61,7 +60,7 @@ function NoteLists() {
         width: "100%",
         height: "100vh",
       }}>
-      <SideBar isDisabled = {isDisabled} />
+      <SideBar />
       <Layout>
         <Content 
         style={{
