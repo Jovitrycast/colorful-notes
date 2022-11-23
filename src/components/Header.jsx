@@ -1,11 +1,15 @@
 // ant design imports
-import { Col, Input, Row } from 'antd'
+import { Button, Col, Input, Row } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 
 import { useSelector } from 'react-redux';
 
 function Header(props) {
+  
   const displayedNotes  = props.notes;
+  const {handleSearch,searchResultCount, handleClearSearch, searchNote} = props
+
+  const result = searchResultCount.length
   const count = displayedNotes.length;
   const { isDarkMode } = useSelector((state) => state.note);
 
@@ -22,9 +26,11 @@ function Header(props) {
         >
             <Input
                 size='large'
+                value={searchNote}
                 placeholder='Search Notes'
                 prefix={<SearchOutlined/>}
                 className='rounded-5 p-2 my-2 w-100' 
+                onChange={handleSearch}
             />
         </Col>
       </Row>
@@ -40,7 +46,16 @@ function Header(props) {
               color: isDarkMode ? '#F9F9F9' : '',
           }}
           >Notes</h1>
-            { count > 0 ? (<p>{count}{count === 1 ? " note" : " notes"} registered</p>) : (<p>No saved notes yet.</p>)}
+            {!props.searchNote.trim().length > 0 ? 
+              (
+                count > 0 ? (<p>{count}{count === 1 ? " note" : " notes"} registered</p>) : (<p>No saved notes yet.</p>)
+              ) : (
+                <>
+                  {result === 0 ? (<p>No result found</p>) : (<p>{result}{result === 1 ? " note" : " notes"} found.</p>)}
+                  <Button type='primary' onClick={handleClearSearch}>Clear search filter</Button>
+                </>
+              )
+            }
         </section>
     </div>
   )

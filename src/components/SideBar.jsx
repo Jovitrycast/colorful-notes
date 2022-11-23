@@ -18,7 +18,8 @@ import { createNewNote, setTheme } from '../features/notes/noteSlice';
 
 
 
-function SideBar() {
+function SideBar(props) {
+	const { isDisabled } = props;
 	const dispatch = useDispatch();
 	const { isDarkMode } = useSelector((state) => state.note);
 
@@ -27,7 +28,11 @@ function SideBar() {
 
 	useEffect(() => {
 		setColorMode(isDarkMode ? 'Dark' : 'Light')
-	},[isDarkMode])
+		
+		if(isDisabled) {
+			setIsShowColors(false)
+		}
+	},[isDarkMode, isDisabled])
 
 	const handleToggleColorSelection = () => {
 		setIsShowColors(!isShowColors);
@@ -58,6 +63,7 @@ function SideBar() {
 						width: 60,
 					}}
 					onClick={handleToggleColorSelection}
+					disabled={isDisabled}
 				/>
 				{
 					isShowColors  && (
@@ -83,6 +89,7 @@ function SideBar() {
 									border: 'none'
 								}}
 								onClick = {handleCreateNote}
+								disabled={isDisabled}
 							>
 								{" "}	
 							</Button>

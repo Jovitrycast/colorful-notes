@@ -13,7 +13,7 @@ const initialState = {
     addNew: false,
     noteColor: "",
     createdAt: currentDate.toLocaleDateString('en-us', options),
-    isDarkMode: darkMode
+    isDarkMode: darkMode,
 }
 
 export const noteSlice = createSlice({
@@ -53,7 +53,7 @@ export const noteSlice = createSlice({
         setTheme: (state) => {
             state.isDarkMode = !state.isDarkMode;
             localStorage.setItem('isDarkMode', JSON.stringify(state.isDarkMode));
-        }
+        },
     }
 });
 
