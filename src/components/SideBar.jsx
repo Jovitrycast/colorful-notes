@@ -13,7 +13,7 @@ import Sider from "antd/lib/layout/Sider";
 
 // Import note reducers // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { createNewNote, setTheme, setIsDisabled } from '../features/notes/noteSlice';
+import { createNewNote, setTheme } from '../features/notes/noteSlice';
 
 
 
