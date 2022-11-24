@@ -50,6 +50,7 @@ export const noteSlice = createSlice({
             state.listedNotes = notes ? notes : [];
             state.noteColor = "";
             state.addNew = false;
+            state.isDisabled = false;
         },
         setTheme: (state) => {
             state.isDarkMode = !state.isDarkMode;
